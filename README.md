@@ -52,12 +52,13 @@ of Graphics Mode II.
  To implement it into an assembly program, I recommend the using the sub-labels automatically printed in the .inc files, in addition To
  your own when you import them, especially for the color map and tile patterns. 
  
- ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/backgroundASM.png)
+ ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/importBG.png)
+ 
  
  The screen is broken up into 3 parts, each part starting at a different point in
  VRAM. 
  
- 1[](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/importBG.png)
+ ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/backgroundASM.png)
 
 
 Next we can export the sprites. We can start by giving them their own file.

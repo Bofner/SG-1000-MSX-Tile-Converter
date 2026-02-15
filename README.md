@@ -49,11 +49,15 @@ of Graphics Mode II.
 
  ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/tileMap.png)
 
- To implement it into an assembly program, I recommend the using the sub-labels automatically printed in the .inc files
- for the color map and tile patterns. The screen is broken up into 3 parts, each part starting at a different point in
- VRAM. 
+ To implement it into an assembly program, I recommend the using the sub-labels automatically printed in the .inc files, in addition To
+ your own when you import them, especially for the color map and tile patterns. 
  
  ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/backgroundASM.png)
+ 
+ The screen is broken up into 3 parts, each part starting at a different point in
+ VRAM. 
+ 
+ 1[](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/importBG.png)
 
 
 Next we can export the sprites. We can start by giving them their own file.
@@ -77,6 +81,10 @@ Next we can export the sprites. We can start by giving them their own file.
  need to worry about adding the sub-labels. 
  
  ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/sfSpritesData.png)
+ 
+ You can then import the graphics in your ASM program.
+ 
+ ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/importSprites.png)
  
  For getting the graphics into VRAM, just make sure that you are pointing to the correct address. The address for 
  where every one of these files should go is determined by the the VDP registers, so make sure you know how your registers

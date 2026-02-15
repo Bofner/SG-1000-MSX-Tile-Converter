@@ -316,6 +316,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
             end
         end
     end
+    tileMapIncFile:write("@Section0End:\n")
     
     tileMapIncFile:write("; Second third of map data\n")
     tileMapIncFile:write("@Section1:\n")
@@ -333,6 +334,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
             end
         end
     end
+    tileMapIncFile:write("\n@Section1End:\n")
 
     tileMapIncFile:write("; Last third of map data\n")
     tileMapIncFile:write("@Section2:\n")
@@ -350,6 +352,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
             end
         end
     end
+    tileMapIncFile:write("@Section2End:\n")
     tileMapIncFile:close();
 end
 

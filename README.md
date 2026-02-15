@@ -70,7 +70,7 @@ Next we can export the sprites. We can start by giving them their own file.
 
  Then we can use the SG-1000 Exporter again, but this time export as a sprite.
  
- ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/sfSpritesData.png)
+ ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/sfSpritesStep2.png)
  
  ![](https://github.com/Bofner/SG-1000-MSX-Tile-Converter/blob/master/images/sfSpritesStep3.png)
  

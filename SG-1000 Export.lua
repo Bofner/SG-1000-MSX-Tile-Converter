@@ -391,7 +391,7 @@ local function exportBackground()
             filename= spriteFilePath .. "Color.inc",
             filetypes={"inc"}}
 
-    dlg:button{ id="ok", text="OK" }
+    dlg:button{ id="ok", text="OK", focus = true}
     dlg:button{ id="cancel", text="Cancel" }
     dlg:show()
     local data = dlg.data
@@ -580,7 +580,7 @@ local function exportSprite()
     dlg:check{ id="bigSprites",
             text="Export as 16x16",
             selected=false}
-    dlg:button{ id="ok", text="OK" }
+    dlg:button{ id="ok", text="OK", focus = true }
     dlg:button{ id="cancel", text="Cancel" }
     dlg:show()
     local data = dlg.data
@@ -611,9 +611,9 @@ if sprite.colorMode ~= ColorMode.INDEXED then
 end
 
 local dlg = Dialog()
-dlg:button{ id="sprite", text="Export Sprite" }
 dlg:button{ id="background", text="Export Background" }
-dlg:button{ id="cancel", text="Cancel" }
+dlg:button{ id="sprite", text="Export Sprite" }
+dlg:button{ id="cancel", text="Cancel", focus = true  }
 dlg:show()
 local data = dlg.data
 if data.background then

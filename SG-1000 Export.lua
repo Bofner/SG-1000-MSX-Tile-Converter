@@ -125,7 +125,7 @@ local function recordTiles(currentX, currentY, numTiles, tilePatternTable, tileM
                 newRow = false
             end
             -- Save our Tile Pattern Byte to the buffer
-            tilePatternBuffer[tilePatternRow] = ("$" .. string.format("%02X", tilePatternByte) )
+            tilePatternBuffer[tilePatternRow] = tilePatternByte
             --print("Row " .. tilePatternRow .. ": " .. tilePatternTable[tilePattern][tilePatternRow])
             -- Reset pattern savers
             tileOnBit = 0x80
@@ -137,7 +137,7 @@ local function recordTiles(currentX, currentY, numTiles, tilePatternTable, tileM
             -- And save to color table
             local colorByte = (colorON << 4) | colorOFF
             --[[ print(("Color: $" .. string.format("%02X", colorByte) )) ]]
-            colorMapBuffer[tilePatternRow] =  ("$" .. string.format("%02X", colorByte) )
+            colorMapBuffer[tilePatternRow] =  colorByte
             --Then reset colors
             prevColorON = colorON
             colorON = -1
@@ -173,10 +173,10 @@ local function recordTiles(currentX, currentY, numTiles, tilePatternTable, tileM
                 colorMapTable[#colorMapTable][row] = colorMapBuffer[row]
             end                            
             -- And save the Tile Pattern to the map
-            tileMapTable[tilePattern] = ("$" .. string.format("%02X", #tilePatternTable - 1) )
+            tileMapTable[tilePattern] = #tilePatternTable - 1
         else
             -- And save the Tile Pattern to the map
-            tileMapTable[tilePattern] = ("$" .. string.format("%02X", tileMapNumber) )
+            tileMapTable[tilePattern] = tileMapNumber
         end
     end
 
@@ -198,7 +198,7 @@ local function writeTilePatternToIncFile(file, tilePatternDataTop, tilePatternDa
         tileIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #tilePatternDataTop[tile], 1 do
-            tileIncFile:write(tilePatternDataTop[tile][rowByte].." ")
+            tileIncFile:write("$" .. string.format("%02X",tilePatternDataTop[tile][rowByte]).." ")
         end
         tileIncFile:write(" \n")
     end
@@ -213,7 +213,7 @@ local function writeTilePatternToIncFile(file, tilePatternDataTop, tilePatternDa
         tileIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #tilePatternDataMid[tile], 1 do
-            tileIncFile:write(tilePatternDataMid[tile][rowByte].." ")
+            tileIncFile:write("$" .. string.format("%02X",tilePatternDataMid[tile][rowByte]).." ")
         end
         tileIncFile:write(" \n")
     end
@@ -228,7 +228,7 @@ local function writeTilePatternToIncFile(file, tilePatternDataTop, tilePatternDa
         tileIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #tilePatternDataBot[tile], 1 do
-            tileIncFile:write(tilePatternDataBot[tile][rowByte].." ")
+            tileIncFile:write("$" .. string.format("%02X",tilePatternDataBot[tile][rowByte]).." ")
         end
         tileIncFile:write(" \n")
     end
@@ -253,7 +253,7 @@ local function writeColorMapToIncFile(file, colorMapDataTop, colorMapDataMid, co
         colorIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #colorMapDataTop[tile], 1 do
-            colorIncFile:write(colorMapDataTop[tile][rowByte].." ")
+            colorIncFile:write("$" .. string.format("%02X",colorMapDataTop[tile][rowByte]).." ")
         end
         colorIncFile:write(" \n")
     end
@@ -268,7 +268,7 @@ local function writeColorMapToIncFile(file, colorMapDataTop, colorMapDataMid, co
         colorIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #colorMapDataMid[tile], 1 do
-            colorIncFile:write(colorMapDataMid[tile][rowByte].." ")
+            colorIncFile:write("$" .. string.format("%02X",colorMapDataMid[tile][rowByte]).." ")
         end
         colorIncFile:write(" \n")
     end
@@ -283,7 +283,7 @@ local function writeColorMapToIncFile(file, colorMapDataTop, colorMapDataMid, co
         colorIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #colorMapDataBot[tile], 1 do
-            colorIncFile:write(colorMapDataBot[tile][rowByte].." ")
+            colorIncFile:write("$" .. string.format("%02X", colorMapDataBot[tile][rowByte]) .." ")
         end
         colorIncFile:write(" \n")
     end
@@ -306,7 +306,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
     -- Write the first 1/3 of the map data
     for tile = 1, #tileMapDataTop, 1 do
         -- Write map data
-        tileMapIncFile:write(tileMapDataTop[tile].." ")
+        tileMapIncFile:write("$" .. string.format("%02X",tileMapDataTop[tile]).." ")
 
         -- Make it so the data reflects the shape of the actual screen
         if tile % 32 == 0  then
@@ -324,7 +324,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
     -- Write the first 1/3 of the map data
     for tile = 1, #tileMapDataMid, 1 do
         -- Write map data
-        tileMapIncFile:write(tileMapDataMid[tile].." ")
+        tileMapIncFile:write("$" .. string.format("%02X",tileMapDataMid[tile]) .." ")
 
         -- Make it so the data reflects the shape of the actual screen
         if tile % 32 == 0  then
@@ -342,7 +342,7 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
     -- Write the first 1/3 of the map data
     for tile = 1, #tileMapDataBot, 1 do
         -- Write map data
-        tileMapIncFile:write(tileMapDataBot[tile].." ")
+        tileMapIncFile:write("$" .. string.format("%02X",tileMapDataBot[tile]).." ")
 
         -- Make it so the data reflects the shape of the actual screen
         if tile % 32 == 0  then
@@ -353,6 +353,90 @@ local function writeTileMapToIncFile(file, tileMapDataTop, tileMapDataMid, tileM
         end
     end
     tileMapIncFile:write("@Section2End:\n")
+    tileMapIncFile:close();
+end
+
+
+-- Function to write the Tile Pattern Data to inc files for use in SG-100/MSX projects
+local function writeTilePatternToBinFile(file, tilePatternDataTop, tilePatternDataMid, tilePatternDataBot)
+
+    local tileIncFile = io.open(file, "w")
+    -- Write the first 1/3 of the pattern data
+    for tile = 1, #tilePatternDataTop, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #tilePatternDataTop[tile], 1 do
+            tileIncFile:write(string.char(tilePatternDataTop[tile][rowByte]))
+        end
+    end
+    -- Write the second 1/3 of the pattern data
+    for tile = 1, #tilePatternDataMid, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #tilePatternDataMid[tile], 1 do
+            tileIncFile:write(string.char(tilePatternDataMid[tile][rowByte]))
+        end
+    end
+    -- Write the last 1/3 of the pattern data
+    for tile = 1, #tilePatternDataBot, 1 do
+        -- Beginning of the first row of tiles
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #tilePatternDataBot[tile], 1 do
+            tileIncFile:write(string.char(tilePatternDataBot[tile][rowByte]))
+        end
+    end
+    tileIncFile:close();
+
+end
+
+-- Function to write the Color Map Data to inc files for use in SG-100/MSX projects
+local function writeColorMapToBinFile(file, colorMapDataTop, colorMapDataMid, colorMapDataBot)
+
+    local colorIncFile = io.open(file, "w")
+    -- Write the first 1/3 of the color map data
+    for tile = 1, #colorMapDataTop, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #colorMapDataTop[tile], 1 do
+            colorIncFile:write(string.char(colorMapDataTop[tile][rowByte]))
+        end
+    end
+    -- Write the second 1/3 of the color map data
+    for tile = 1, #colorMapDataMid, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #colorMapDataMid[tile], 1 do
+            colorIncFile:write(string.char(colorMapDataMid[tile][rowByte]))
+        end
+    end
+    -- Write the last 1/3 of the color map data
+    for tile = 1, #colorMapDataBot, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #colorMapDataBot[tile], 1 do
+            colorIncFile:write(string.char(colorMapDataBot[tile][rowByte]))
+        end
+    end
+    colorIncFile:close();
+
+end
+
+
+
+-- Function to write the Tile Pattern Data to inc files for use in SG-100/MSX projects
+local function writeTileMapToBinFile(file, tileMapDataTop, tileMapDataMid, tileMapDataBot)
+
+    local tileMapIncFile = io.open(file, "w")
+    -- Write the first 1/3 of the map data
+    for tile = 1, #tileMapDataTop, 1 do
+        -- Write map data
+        tileMapIncFile:write(string.char(tileMapDataTop[tile]))
+    end
+    -- Write the first 1/3 of the map data
+    for tile = 1, #tileMapDataMid, 1 do
+        -- Write map data
+        tileMapIncFile:write(string.char(tileMapDataMid[tile]))
+    end
+    -- Write the first 1/3 of the map data
+    for tile = 1, #tileMapDataBot, 1 do
+        -- Write map data
+        tileMapIncFile:write(string.char(tileMapDataBot[tile]))
+    end
     tileMapIncFile:close();
 end
 
@@ -368,28 +452,42 @@ local function exportBackground()
 
     --Menu that pops up in Aseprite
     local dlg = Dialog()
-
+        local function updateFilePath()
+            local data = dlg.data
+            local tileBase = app.fs.filePathAndTitle(data.tileFile)
+            dlg:modify{ id="tileFile", filename = tileBase .. "." .. data.fileType }
+            local mapBase = app.fs.filePathAndTitle(data.mapFile)
+            dlg:modify{ id="mapFile", filename = mapBase .. "." .. data.fileType }
+            local colorBase = app.fs.filePathAndTitle(data.colorFile)
+            dlg:modify{ id="colorFile", filename = colorBase .. "." .. data.fileType }
+        end
+        dlg:combobox{ id="fileType",
+            label="File Type",
+            option="inc",
+            options={ "inc","bin" },
+            onchange= updateFilePath
+            }
     dlg:file{ id="tileFile",
             label="Tile-Pattern-File",
             title="SG-1000/MSX Export",
             open=false,
             save=true,
-            filename= spriteFilePath .. "Tiles.inc",
-            filetypes={"inc"}}
+            filename= spriteFilePath .. "Tiles",
+            filetypes={ "inc","bin" }}
     dlg:file{ id="mapFile",
             label="Tile-Map-File",
             title="SG-1000/MSX Export",
             open=false,
             save=true,
-            filename= spriteFilePath .. "Map.inc",
-            filetypes={"inc"}}
+            filename= spriteFilePath .. "Map",
+            filetypes={ "inc","bin" }}
     dlg:file{ id="colorFile",
             label="Color-Map-File",
             title="SG-1000/MSX Export",
             open=false,
             save=true,
-            filename= spriteFilePath .. "Color.inc",
-            filetypes={"inc"}}
+            filename= spriteFilePath .. "Color",
+            filetypes={ "inc","bin" }}
 
     dlg:button{ id="ok", text="OK", focus = true}
     dlg:button{ id="cancel", text="Cancel" }
@@ -430,15 +528,18 @@ local function exportBackground()
         writeTilePatternToIncFile(data.tileFile, tilePatternTable0, tilePatternTable1, tilePatternTable2)
         writeTileMapToIncFile(data.mapFile, tileMapTable0, tileMapTable1, tileMapTable2)
         writeColorMapToIncFile(data.colorFile, colorMapTable0, colorMapTable1, colorMapTable2)
+
+        if data.fileType == "inc" then
+            writeTilePatternToIncFile(data.tileFile, tilePatternTable0, tilePatternTable1, tilePatternTable2)
+            writeTileMapToIncFile(data.mapFile, tileMapTable0, tileMapTable1, tileMapTable2)
+            writeColorMapToIncFile(data.colorFile, colorMapTable0, colorMapTable1, colorMapTable2)
+        elseif data.fileType == "bin" then
+            writeTilePatternToBinFile(data.tileFile, tilePatternTable0, tilePatternTable1, tilePatternTable2)
+            writeTileMapToBinFile(data.mapFile, tileMapTable0, tileMapTable1, tileMapTable2)
+            writeColorMapToBinFile(data.colorFile, colorMapTable0, colorMapTable1, colorMapTable2)
+        end
     end
 end
-
-
-
-
-
-
-
 
 
 -- Function for getting our tile data etc
@@ -510,7 +611,7 @@ local function recordSpriteTiles(currentX, currentY, numTiles, tilePatternTable,
             end
             
             -- Save our Tile Pattern Byte to the buffer
-           tilePatternTable[tilePattern][tilePatternRow] = ("$" .. string.format("%02X", tilePatternByte) )
+           tilePatternTable[tilePattern][tilePatternRow] = (tilePatternByte) 
             --print("Row " .. tilePatternRow .. ": " .. tilePatternTable[tilePattern][tilePatternRow])
             -- Reset pattern savers
             tileOnBit = 0x80
@@ -538,7 +639,7 @@ local function recordSpriteTiles(currentX, currentY, numTiles, tilePatternTable,
 end
 
 -- Write sprite tiles to a file
-local function writeSpriteTiles(tileFile, tilePatternData)
+local function writeSpriteTilesInc(tileFile, tilePatternData)
      local tilePatternIncFile = io.open(tileFile, "w")
     -- Header comment message
     tilePatternIncFile:write("; Tile Pattern file for use with sprites on SG-1000/MSX Z80 Assembly programs\n; By Steelfinger Studios\n \n")
@@ -550,9 +651,23 @@ local function writeSpriteTiles(tileFile, tilePatternData)
         tilePatternIncFile:write(".DB ")
         -- Each tile is made of 8 bytes
         for rowByte = 1, #tilePatternData[tile], 1 do
-            tilePatternIncFile:write(tilePatternData[tile][rowByte].." ")
+            tilePatternIncFile:write("$" .. string.format("%02X", tilePatternData[tile][rowByte]).." ")
         end
         tilePatternIncFile:write("\n")
+    end
+    tilePatternIncFile:close();
+end
+
+
+-- Write sprite tiles to a file
+local function writeSpriteTilesBin(tileFile, tilePatternData)
+     local tilePatternIncFile = io.open(tileFile, "w")
+    -- Write the Tile Patterns
+    for tile = 1, #tilePatternData, 1 do
+        -- Each tile is made of 8 bytes
+        for rowByte = 1, #tilePatternData[tile], 1 do
+            tilePatternIncFile:write(string.char(tilePatternData[tile][rowByte]))
+        end
     end
     tilePatternIncFile:close();
 end
@@ -569,14 +684,24 @@ local function exportSprite()
 
     --Menu that pops up in Aseprite
     local dlg = Dialog()
-
+        local function updateFilePath()
+                local data = dlg.data
+                local tileBase = app.fs.filePathAndTitle(data.tileFile)
+                dlg:modify{ id="tileFile", filename = tileBase .. "." .. data.fileType }
+            end
+        dlg:combobox{ id="fileType",
+            label="File Type",
+            option="inc",
+            options={ "inc","bin" },
+            onchange= updateFilePath
+            }
     dlg:file{ id="tileFile",
             label="Tile-Pattern-File",
             title="SG-1000/MSX Export",
             open=false,
             save=true,
-            filename= spriteFilePath .. "Tiles.inc",
-            filetypes={"inc"}}
+            filename= spriteFilePath .. "Tiles",
+            filetypes={"inc","bin"}}
     dlg:check{ id="bigSprites",
             text="Export as 16x16",
             selected=false}
@@ -594,7 +719,12 @@ local function exportSprite()
         -- First 256 tiles
         recordSpriteTiles(x, y, numTiles, tilePatternTable, data.bigSprites )
 
-        writeSpriteTiles(data.tileFile, tilePatternTable)
+        if data.fileType == "inc" then
+            writeSpriteTilesInc(data.tileFile, tilePatternTable)
+        elseif data.fileType == "bin" then
+            writeSpriteTilesBin(data.tileFile, tilePatternTable)
+        end
+        
     end
 end
 
@@ -623,6 +753,3 @@ elseif data.sprite then
 else
     return
 end
-
-
-
